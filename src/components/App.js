@@ -18,6 +18,7 @@ class App extends Component {
     this.updatePost = this.updatePost.bind( this );
     this.deletePost = this.deletePost.bind( this );
     this.createPost = this.createPost.bind( this );
+    this.search = this.search.bind(this);
   }
   
   componentDidMount() {
@@ -45,12 +46,18 @@ class App extends Component {
     .then(res=> this.setState({posts: res.data}))
   }
 
+  search(text){
+    axios.get(`https://practiceapi.devmountain.com/api/posts/filter?text=${text}`)
+    .then(res=> this.setState({posts:res.data}))
+    .catch(err=>console.log(err))
+  }
+
   render() {
     const { posts } = this.state;
 
     return (
       <div className="App__parent">
-        <Header />
+        <Header searchFn={this.search}/>
 
         <section className="App__content">
 
